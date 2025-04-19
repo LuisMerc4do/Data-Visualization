@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load data
-training_data = pd.read_csv('AtRiskStudentsTraining.csv')
-test_data = pd.read_csv('AtRiskStudentsTest.csv')
+training_data = pd.read_csv('Neural Network\AtRiskStudentsTraining.csv')
+test_data = pd.read_csv('Neural Network\AtRiskStudentsTest.csv')
 
 # Separate features and target
 X_train = training_data.iloc[:, 0:4].values
@@ -83,6 +83,6 @@ plt.tight_layout()
 plt.savefig('nn_architecture_comparison.png')
 
 # Save results to CSV
-results_df.to_csv('nn_architecture_results.csv', index=False)
+results_df.to_csv('Neural Network\ nn_architecture_results.csv', index=False)
 
 print("\nAnalysis complete. Results saved to 'nn_architecture_results.csv'")

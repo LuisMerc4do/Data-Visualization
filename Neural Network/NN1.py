@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 import joblib
 
 # Load training data
-training_data = pd.read_csv('AtRiskStudentsTraining.csv')
+training_data = pd.read_csv('Neural Network\AtRiskStudentsTraining.csv')
 
 # Separate features and target
 X_train = training_data.iloc[:, 0:4].values  # GPA, attendance, duration, language
@@ -31,7 +31,7 @@ nn_model = MLPClassifier(
 nn_model.fit(X_train_scaled, y_train)
 
 # Save the trained model and scaler
-joblib.dump(nn_model, 'nn_model.pkl')
-joblib.dump(scaler, 'scaler.pkl')
+joblib.dump(nn_model, 'Neural Network\ nn_model.pkl')
+joblib.dump(scaler, 'Neural Network\ scaler.pkl')
 
 print("Neural Network trained and saved successfully.")

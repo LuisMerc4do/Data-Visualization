@@ -5,15 +5,15 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from sklearn.metrics import mean_squared_error, log_loss
 
 # Load test data
-test_data = pd.read_csv('AtRiskStudentsTest.csv')
+test_data = pd.read_csv('Neural Network\AtRiskStudentsTest.csv')
 
 # Separate features and target
 X_test = test_data.iloc[:, 0:4].values  # GPA, attendance, duration, language
 y_test = test_data.iloc[:, 4].values    # at-risk label
 
 # Load the trained model and scaler
-nn_model = joblib.load('nn_model.pkl')
-scaler = joblib.load('scaler.pkl')
+nn_model = joblib.load('Neural Network\ nn_model.pkl')
+scaler = joblib.load('Neural Network\ scaler.pkl')
 
 # Standardize test features
 X_test_scaled = scaler.transform(X_test)
