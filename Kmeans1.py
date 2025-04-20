@@ -2,11 +2,16 @@ import csv
 import numpy as np
 import random
 import matplotlib.pyplot as plt  # Only for plotting
+#References
+#Bhattacharjee, A. (2023, September 24). Implementing K-Means Clustering from Scratch in Python. Medium. https://medium.com/@avijit.bhattacharjee1996/implementing-k-means-clustering-from-scratch-in-python-a277c23563ac
+#Luke, T. (2022, April 11). Create a K-Means Clustering Algorithm from Scratch in Python | Towards Data Science. Towards Data Science. https://towardsdatascience.com/create-your-own-k-means-clustering-algorithm-in-python-d7d4c9077670/
+#Sharma, P. (2019, August 19). The Most Comprehensive Guide to K-Means Clustering You’ll Ever Need. Analytics Vidhya. https://www.analyticsvidhya.com/blog/2019/08/comprehensive-guide-k-means-clustering/
+
+# ------------------------------
 
 # Global Variables To modify the algorithm
 MAX_ITER = 100  # Max number of iterations in order to prevent infinite loop, it could finish befor reaching 100 iterations.
 
-# ------------------------------
 # Read the CSV file
 def read_csv(filename):
     data = []
@@ -20,14 +25,13 @@ def read_csv(filename):
     # Returns all rows as a numpy array for better math handling
     return np.array(data)
 
-# ------------------------------
+
 # Calculate distance between two points
 # According to the assesment directions we need to use the euclidean formula  -> √((x2-x1)² + (y2-y1)²)
 
 def euclidean(p1, p2):
     return np.sqrt(np.sum((p1 - p2) ** 2))
 
-# ------------------------------
 # Calculating the closest centroid and assign the point to it
 def assign_clusters(data, centroids):
     # Empty list for each cluster
@@ -46,7 +50,6 @@ def assign_clusters(data, centroids):
 
     return clusters, np.array(labels)
 
-# ------------------------------
 # Update Centroids
 def update_centroids(clusters):
     new_centroids = []
@@ -59,7 +62,6 @@ def update_centroids(clusters):
             new_centroids.append(np.zeros(2))
     return np.array(new_centroids)
 
-# ------------------------------
 # K-mean algorithm 
 def kmeans(data, k):
     # Randomly select K initial centroids from the data
@@ -80,7 +82,6 @@ def kmeans(data, k):
 
     return centroids, clusters, labels
 
-# ------------------------------
 # Calculate inertia (sum of squared distances of samples to their closest centroid)
 def calculate_inertia(data, centroids, labels):
     inertia = 0
@@ -88,7 +89,6 @@ def calculate_inertia(data, centroids, labels):
         inertia += euclidean(point, centroids[labels[i]]) ** 2
     return inertia
 
-# ------------------------------
 # Calculate minimum inter-cluster distance
 def min_inter_cluster_distance(centroids):
     min_dist = float('inf')
@@ -99,7 +99,6 @@ def min_inter_cluster_distance(centroids):
                 min_dist = dist
     return min_dist
 
-# ------------------------------
 # Calculate maximum intra-cluster distance (diameter of a cluster)
 def max_intra_cluster_distance(clusters):
     max_dist = 0
@@ -118,7 +117,6 @@ def max_intra_cluster_distance(clusters):
     
     return max_dist
 
-# ------------------------------
 # Calculate Dunn Index
 def calculate_dunn_index(centroids, clusters):
     min_inter = min_inter_cluster_distance(centroids)
@@ -130,7 +128,6 @@ def calculate_dunn_index(centroids, clusters):
     
     return min_inter / max_intra
 
-# ------------------------------
 # Save centroids information (assets and income)
 def save_centroids_info(centroids, k):
     # Sort centroids by assets (ascending)
@@ -144,7 +141,6 @@ def save_centroids_info(centroids, k):
     for i, centroid in sorted_centroids:
         print(f"{i+1}\t{centroid[0]:.2f}\t\t{centroid[1]:.2f}")
 
-# ------------------------------
 # Visualization of the results
 def plot_clusters(data, centroids, labels, k):
     # Colors for visualization, can add more if needed
@@ -167,7 +163,6 @@ def plot_clusters(data, centroids, labels, k):
     plt.savefig(f'clusters_k{k}.png')  # Save figure for the report
     plt.close()
 
-# ------------------------------
 # Main Function
 def main():
     # Step 1: Load the data
