@@ -2,10 +2,10 @@ import numpy as np
 
 class WeightedNearestNeighbor:
     # References:
-    # https://scikit-learn.org/stable/modules/neighbors.html
-    # https://medium.com/@lakshmiteja.ip/understanding-weighted-k-nearest-neighbors-k-nn-algorithm
-    # https://www.youtube.com/watch?v=xXLTYsHfWzg&ab_channel=CampusX
-
+    # 1.6. Nearest Neighbors — scikit-learn 0.21.3 documentation. (2019). Scikit-Learn.org. https://scikit-learn.org/stable/modules/neighbors.html
+    # Medium. (2025). Medium. https://medium.com/@lakshmiteja.ip/understanding-weighted-k-nearest-neighbors-k-nn-algorithm
+    # CampusX. (2019, October 29). K Nearest Neighbors Part 10 - Weighted KNN. YouTube. https://www.youtube.com/watch?v=xXLTYsHfWzg
+    
     def __init__(self):
         # Initialize empty placeholders for training data and labels
         self.X_train = None
