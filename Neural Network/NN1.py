@@ -2,6 +2,10 @@ import pandas as pd
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 import joblib
+#References
+#https://medium.com/@michaeldelsole/a-single-layer-artificial-neural-network-in-20-lines-of-python-ae34b47e5fef
+#https://how.dev/answers/implement-neural-network-for-classification-using-scikit-learn 
+#https://medium.com/@eshan.k.iyer/how-to-use-a-neural-network-and-scikit-learn-a-practical-implementation-61d890b133d7 
 
 # Load training data
 data = pd.read_csv('Neural Network\\AtRiskStudentsTraining.csv')
