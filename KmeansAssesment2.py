@@ -168,7 +168,7 @@ def plot_clusters(data, centroids, labels, k):
     plt.close()
 
 # ------------------------------
-# Main Function for part (d)
+# Main Function
 def main():
     # Step 1: Load the data
     data = read_csv('HouseholdWealth.csv')
