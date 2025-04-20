@@ -1,17 +1,19 @@
 import csv
-import numpy as np
-
-def read_transactions(filename):
-    """Read transactions from a CSV file."""
-    transactions = []
+# References
+# Kadlaskar, A. (2021, October 2). Market basket Analysis | Guide on Market Basket Analysis. Analytics Vidhya. https://www.analyticsvidhya.com/blog/2021/10/a-comprehensive-guide-on-market-basket-analysis/
+# Read transactions from the CSV file
+def load_data(filename):
+    """Load transactions from a CSV file."""
+    data = []
     try:
         with open(filename, 'r') as file:
-            csv_reader = csv.reader(file)
-            for row in csv_reader:
-                # Clean items by removing spaces and converting to lowercase
+            reader = csv.reader(file)
+            for row in reader:
+                # Clean items (remove spaces, convert to lowercase)
                 clean_row = [item.strip().lower() for item in row]
-                transactions.append(clean_row)
-        return transactions
+                data.append(clean_row)
+        return data
+    # Error handling
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found.")
         return []
@@ -19,96 +21,121 @@ def read_transactions(filename):
         print(f"Error reading file: {e}")
         return []
 
-def calculate_support(transactions, items):
-    """Calculate support for given item(s)."""
-    if not transactions:
+# Calculate support for given item(s)
+
+def calc_support(data, items):
+    if not data:
         return 0
     
-    # Convert string items to set for comparison
+    # Convert items to set for easier comparison {1,2,3}
     items_set = set(items)
     
-    # Count transactions that contain all items
-    count = sum(1 for transaction in transactions if items_set.issubset(set(transaction)))
+    # Count transactions containing all items
+    count = 0
+    for transaction in data:
+        if items_set.issubset(set(transaction)):
+            count += 1
     
-    # Calculate support
-    support = count / len(transactions)
+    # Calculate support = (Number of transactions containing all items) / (Total number of transactions)
+    support = count / len(data)
     return support
 
-def calculate_confidence(transactions, antecedent, consequent):
-    """Calculate confidence for rule: antecedent -> consequent."""
-    if not transactions:
+# Calculate confidence for rule: if_items -> then_items
+
+def calc_confidence(data, if_items, then_items):
+    """Calculate confidence value for an association rule."""
+    if not data:
         return 0
     
-    # Convert to sets for comparison
-    antecedent_set = set(antecedent)
-    consequent_set = set(consequent)
+    # Convert to sets for easier comparison
+    if_set = set(if_items)
+    then_set = set(then_items)
     
-    # Count transactions containing antecedent
-    antecedent_count = sum(1 for transaction in transactions if antecedent_set.issubset(set(transaction)))
+    # Count transactions containing if_items
+    if_count = 0
+    for transaction in data:
+        if if_set.issubset(set(transaction)):
+            if_count += 1
     
-    if antecedent_count == 0:
+    if if_count == 0:
         return 0
     
-    # Count transactions containing both antecedent and consequent
-    combined_set = antecedent_set.union(consequent_set)
-    combined_count = sum(1 for transaction in transactions if combined_set.issubset(set(transaction)))
+    # Count transactions containing both if_items and then_items
+    both_set = if_set.union(then_set)
+    both_count = 0
+    for transaction in data:
+        if both_set.issubset(set(transaction)):
+            both_count += 1
     
-    # Calculate confidence
-    confidence = combined_count / antecedent_count
+    # Calculate confidence percentage Confidence = (Support of combined items) / (Support of if_items)
+    confidence = both_count / if_count
     return confidence
 
-def parse_items(items_str):
-    """Parse a comma-separated items string into a list."""
+# Parse input string into a list of items from , separated items
+def split_items(items_str):
     return [item.strip().lower() for item in items_str.split(',')]
 
 def main():
+    # Path of file to analyze
     filename = "shoppingtransactions.csv"
-    transactions = read_transactions(filename)
     
+    # Load transaction data
+    transactions = load_data(filename)
+    
+    # Check if data was loaded correctly
     if not transactions:
         print("No transactions loaded. Exiting.")
         return
     
     print(f"Successfully loaded {len(transactions)} transactions.")
     
+    # Main menu loop
     while True:
         print("\nAvailable commands:")
         print("1. sup item[,item]")
         print("2. con item[,item] --> item[,item]")
         print("3. exit")
         
-        choice = input("\nEnter command: ").strip()
+        # Get user command
+        user_input = input("\nEnter command: ").strip()
         
-        # Exit command
-        if choice.lower() == "3" or choice.lower() == "exit":
+        # Process exit command
+        if user_input.lower() == "3" or user_input.lower() == "exit":
             print("Exiting program.")
             break
         
-        # Support command
-        elif choice.lower().startswith("sup "):
-            items_str = choice[4:].strip()
-            items = parse_items(items_str)
+        # Process support command
+        elif user_input.lower().startswith("sup "):
+            # Extract items from command
+            items_text = user_input[4:].strip()
+            items_list = split_items(items_text)
             
-            support = calculate_support(transactions, items)
-            print(f"Support for {items}: {support:.4f} ({support*100:.2f}%)")
+            # Calculate and display support
+            support = calc_support(transactions, items_list)
+            print(f"Support for {items_list}: {support:.4f} ({support*100:.2f}%)")
         
-        # Confidence command
-        elif choice.lower().startswith("con "):
-            rule_parts = choice[4:].split("-->")
+        # Process confidence command
+        elif user_input.lower().startswith("con "):
+            # Split rule into parts
+            parts = user_input[4:].split("-->")
             
-            if len(rule_parts) != 2:
+            # Check if format is correct
+            if len(parts) != 2:
                 print("Error: Confidence calculation requires format 'con item[,item] --> item[,item]'")
                 continue
             
-            antecedent = parse_items(rule_parts[0])
-            consequent = parse_items(rule_parts[1])
+            # Get items from both sides of rule
+            if_items = split_items(parts[0])
+            then_items = split_items(parts[1])
             
-            confidence = calculate_confidence(transactions, antecedent, consequent)
-            print(f"Confidence for {antecedent} --> {consequent}: {confidence:.4f} ({confidence*100:.2f}%)")
+            # Calculate and display confidence
+            confidence = calc_confidence(transactions, if_items, then_items)
+            print(f"Confidence for {if_items} --> {then_items}: {confidence:.4f} ({confidence*100:.2f}%)")
         
-        # Command not recognized
+        # Handle unrecognized commands
         else:
             print("Command not recognized. Please try again.")
 
+# Run the program
 if __name__ == "__main__":
     main()
