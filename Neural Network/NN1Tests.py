@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load data
-training_data = pd.read_csv('Neural Network\AtRiskStudentsTraining.csv')
-test_data = pd.read_csv('Neural Network\AtRiskStudentsTest.csv')
+training_data = pd.read_csv('Neural Network\\AtRiskStudentsTraining.csv')
+test_data = pd.read_csv('Neural Network\\AtRiskStudentsTest.csv')
 
 # Separate features and target
 X_train = training_data.iloc[:, 0:4].values
@@ -21,11 +21,11 @@ scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# Define various network architectures to test
+# Define various network architectures to test different performances
 architectures = [
     ((5,), "1 hidden layer, 5 neurons"),
-    ((10,), "1 hidden layer, 10 neurons"),
-    ((20,), "1 hidden layer, 20 neurons"),
+    ((40,), "1 hidden layer, 40 neurons"),
+    ((2, 20,), "2 hidden layer, 20 neurons"),
     ((5, 5), "2 hidden layers, 5 neurons each"),
     ((10, 10), "2 hidden layers, 10 neurons each"),
     ((20, 10), "2 hidden layers, 20 and 10 neurons"),
@@ -38,9 +38,9 @@ architectures = [
 # Dictionary to store results
 results = []
 
-# Test each architecture
+# Test each architecture ((layer,neurons), description)
 for hidden_layer_sizes, description in architectures:
-    print(f"\nTraining model with {description}...")
+    print(f"\nTraining model with {description}")
     
     # Create and train model
     nn_model = MLPClassifier(
@@ -57,7 +57,7 @@ for hidden_layer_sizes, description in architectures:
     # Make predictions
     y_pred_proba = nn_model.predict_proba(X_test_scaled)[:, 1]
     
-    # Calculate log loss
+    # For this case we use the log loss function to calculate error
     error = log_loss(y_test, y_pred_proba)
     
     # Store results
@@ -75,14 +75,14 @@ results_df = pd.DataFrame(results)
 print("\nResults Table:")
 print(results_df[['Architecture', 'Hidden Layers', 'Error']].to_string(index=False))
 
-# Create and save a visualization of results
+# Create and save a visualization of results for better understanding
 plt.figure(figsize=(12, 6))
 sns.barplot(x='Architecture', y='Error', data=results_df)
 plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
-plt.savefig('nn_architecture_comparison.png')
+plt.savefig('Neural Network\\NN1_architecture_comparison.png')
 
 # Save results to CSV
-results_df.to_csv('Neural Network\ nn_architecture_results.csv', index=False)
+results_df.to_csv('Neural Network\\NN1_architecture_results.csv', index=False)
 
-print("\nAnalysis complete. Results saved to 'nn_architecture_results.csv'")
+print("\nAnalysis complete. Results saved to 'NN1_architecture_results.csv'")

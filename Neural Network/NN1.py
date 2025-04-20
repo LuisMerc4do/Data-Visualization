@@ -1,37 +1,21 @@
 import pandas as pd
-import numpy as np
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 import joblib
 
 # Load training data
-training_data = pd.read_csv('Neural Network\AtRiskStudentsTraining.csv')
+data = pd.read_csv('Neural Network\\AtRiskStudentsTraining.csv')
+X_train = data[['GPA', 'attendance', 'duration', 'language']]
+y_train = data['at-risk']
 
-# Separate features and target
-X_train = training_data.iloc[:, 0:4].values  # GPA, attendance, duration, language
-y_train = training_data.iloc[:, 4].values    # at-risk label
-
-# Standardize features
+# Normalize features
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 
-# Create and train the neural network with 1 hidden layer
-# Hidden layer with 10 neurons, using ReLU activation function
-nn_model = MLPClassifier(
-    hidden_layer_sizes=(10,),  # One hidden layer with 10 neurons
-    activation='relu',         # ReLU activation function
-    solver='adam',             # Adam optimizer
-    alpha=0.0001,              # L2 regularization parameter
-    max_iter=1000,             # Maximum number of iterations
-    random_state=42,           # For reproducibility
-    verbose=True
-)
+# Define and train NN
+model = MLPClassifier(hidden_layer_sizes=(8,), activation='relu', max_iter=1000, random_state=42)
+model.fit(X_train_scaled, y_train)
 
-# Train the model
-nn_model.fit(X_train_scaled, y_train)
-
-# Save the trained model and scaler
-joblib.dump(nn_model, 'Neural Network\ nn_model.pkl')
-joblib.dump(scaler, 'Neural Network\ scaler.pkl')
-
-print("Neural Network trained and saved successfully.")
+# Save model and scaler
+joblib.dump(model, 'Neural Network\\NN1_model.pkl')
+joblib.dump(scaler, 'Neural Network\\NN1_scaler.pkl')

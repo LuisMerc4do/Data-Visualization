@@ -1,0 +1,11 @@
+Architecture,Hidden Layers,Neurons,Error
+"1 hidden layer, 5 neurons",1,"(5,)",0.6973273387516941
+"1 hidden layer, 10 neurons",1,"(10,)",0.6993630259428025
+"1 hidden layer, 20 neurons",1,"(20,)",0.6985392622192697
+"2 hidden layers, 5 neurons each",2,"(5, 5)",0.7047188404052459
+"2 hidden layers, 10 neurons each",2,"(10, 10)",0.6978840912668126
+"2 hidden layers, 20 and 10 neurons",2,"(20, 10)",0.773442050780406
+"3 hidden layers, 10, 10, and 5 neurons",3,"(10, 10, 5)",0.7006527687123015
+"3 hidden layers, 20, 15, and 10 neurons",3,"(20, 15, 10)",0.9423190237774592
+"3 hidden layers, 30, 20, and 10 neurons",3,"(30, 20, 10)",1.1982875134297288
+"4 hidden layers, 15, 12, 10, and 5 neurons",4,"(15, 12, 10, 5)",0.9623123361498702
