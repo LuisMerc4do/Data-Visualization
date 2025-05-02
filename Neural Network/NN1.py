@@ -23,3 +23,5 @@ model.fit(X_train_scaled, y_train)
 # Save model and scaler for test and validation
 joblib.dump(model, 'Neural Network\\NN1_model.pkl')
 joblib.dump(scaler, 'Neural Network\\NN1_scaler.pkl')
+
+# Checked
