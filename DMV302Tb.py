@@ -45,7 +45,7 @@ def load_and_preprocess_data():
     # Calculate rainfall anomalies
     df['Rainfall_Deviation'] = df['Rainfall'] - df['Historical_Avg_Rain']
     
-    # Create moving averages for smoothing
+    # Create moving averages
     df['7d_Avg_Temp'] = df['Avg_Temp'].rolling(window=7, center=True).mean()
     df['7d_Rainfall'] = df['Rainfall'].rolling(window=7).sum()
     
@@ -53,14 +53,14 @@ def load_and_preprocess_data():
     df['Cumulative_Rainfall'] = df['Rainfall'].cumsum()
     df['Cumulative_Avg_Rain'] = df['Historical_Avg_Rain'].cumsum()
     
-    # Flag extreme days (using 2 standard deviations)
+    # Extreme days, if standard deviation > 2 than the average
     df['Extreme_Temp_Day'] = (abs(stats.zscore(df['Avg_Temp'])) > 2)
     df['Extreme_Rain_Day'] = (df['Rainfall'] > df['Historical_Highest_Rain'] * 0.7)
     
     return df
 
 # Decided to create separate functions for reusability and divisibility, might be unnecessary but using best coding practices
-def plot_temperature_overview(df):
+def plot_temperature_ovw(df):
     plt.figure(figsize=(12, 6))
     
     # Plot temperatures
@@ -235,7 +235,7 @@ def main():
     df = load_and_preprocess_data()
     print(f"Data loaded: {len(df)} days of weather data")
     # Generate all plots
-    plot_temperature_overview(df)
+    plot_temperature_ovw(df)
     plot_temperature_anomalies(df)
     plot_rainfall_analysis(df)
     plot_climate_extremes(df)
