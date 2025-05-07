@@ -59,7 +59,7 @@ def load_and_preprocess_data():
     
     return df
 
-# Decided to create separate functions for reusability
+# Decided to create separate functions for reusability and divisibility, might be unnecessary but using best coding practices
 def plot_temperature_overview(df):
     plt.figure(figsize=(12, 6))
     
